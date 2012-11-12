@@ -9,7 +9,7 @@ import com.p6spy.engine.common.P6SpyProperties
 
 class P6spyUiGrailsPlugin {
 
-	String version = '0.1-SNAPSHOT'
+	String version = '0.1'
 	String grailsVersion = '2.0 > *'
 	String author = 'Burt Beckwith'
 	String authorEmail = 'beckwithb@vmware.com'
