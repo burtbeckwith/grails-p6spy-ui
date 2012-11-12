@@ -1,0 +1,6 @@
+.settings/
+*.log
+/target
+/docs
+/*.zip
+/plugin.xml
