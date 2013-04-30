@@ -2,6 +2,7 @@
 <head>
 <meta name='layout' content='p6spy-ui' />
 <title>P6Spy UI</title>
+    <base href="${request.forwardURI}/"/>
 
 <script type='text/javascript' src='http://www.google.com/jsapi'></script>
 <script type="text/javascript">
