@@ -54,7 +54,7 @@ class P6spyUiGrailsPlugin {
 		ConfigObject defaultConfig = new ConfigSlurper(Environment.current.name).parse(classLoader.loadClass('DefaultP6SpyConfig'))
 
 		ConfigObject config = new ConfigObject()
-		config.putAll defaultConfig.p6spy.merge(application.config.grails.plugin.p6spy)
+		config.putAll defaultConfig.p6spy.merge(application.config.grails.plugins.p6spy)
 		Map flat = config.flatten()
 
 		for (String key in flat.keySet().sort()) {
