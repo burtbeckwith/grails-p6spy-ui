@@ -1,6 +1,6 @@
 package grails.plugin.p6spy.ui
 
-import org.codehaus.groovy.grails.plugins.PluginManagerHolder
+import grails.util.Holders
 
 /**
  * @author <a href='mailto:burt@burtbeckwith.com'>Burt Beckwith</a>
@@ -10,7 +10,7 @@ class P6SpyTagLib {
 	static namespace = 'p6'
 
 	def resources = { attrs ->
-		boolean hasResourcesPlugin = PluginManagerHolder.pluginManager.hasGrailsPlugin('resources')
+		boolean hasResourcesPlugin = Holders.getPluginManager().hasGrailsPlugin('resources')
 
 		if (hasResourcesPlugin) {
 			r.require(module: 'p6spy-ui')
@@ -26,7 +26,7 @@ class P6SpyTagLib {
 	}
 
 	def layoutResources = { attrs ->
-		boolean hasResourcesPlugin = PluginManagerHolder.pluginManager.hasGrailsPlugin('resources')
+		boolean hasResourcesPlugin = Holders.getPluginManager().hasGrailsPlugin('resources')
 
 		if (hasResourcesPlugin) {
 			out << r.layoutResources()
