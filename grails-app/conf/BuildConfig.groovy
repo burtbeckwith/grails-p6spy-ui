@@ -19,6 +19,7 @@ grails.project.dependency.resolution = {
 	plugins {
 		compile ':google-visualization:0.6'
 		compile ':jquery:1.11.0.2'
+		compile ':asset-pipeline:2.6.10'
 
 		build(':release:2.0.4', ':rest-client-builder:1.0.2') {
 			export = false
