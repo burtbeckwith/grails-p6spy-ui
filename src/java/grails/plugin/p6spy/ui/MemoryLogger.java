@@ -21,7 +21,8 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.p6spy.engine.logging.appender.P6Logger;
+import com.p6spy.engine.logging.Category;
+import com.p6spy.engine.spy.appender.P6Logger;
 
 // TODO needs max size
 
@@ -48,8 +49,11 @@ public class MemoryLogger implements P6Logger {
 		return instance;
 	}
 
-	public void logSQL(int connectionId, String now, long elapsed,
-			String category, String prepared, String sql) {
+	public boolean isCategoryEnabled(Category category) {
+		return true;
+	}
+
+	public void logSQL(int connectionId, String now, long elapsed, Category category, String prepared, String sql) {
 
 		long entryTime = Long.valueOf(now);
 
@@ -76,7 +80,6 @@ public class MemoryLogger implements P6Logger {
 	}
 
 	public void logText(String text) {
-//		log.log(level, text);
 		lastEntry = text;
 	}
 

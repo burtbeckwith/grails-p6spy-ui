@@ -14,8 +14,16 @@
  */
 package grails.plugin.p6spy.ui
 
+import groovy.transform.CompileStatic
+
 import java.text.SimpleDateFormat
 
+import com.p6spy.engine.logging.Category
+
+/**
+ * @author <a href='mailto:burt@burtbeckwith.com'>Burt Beckwith</a>
+ */
+@CompileStatic
 class Entry {
 
 	protected static final String DATE_FORMAT = 'yyyy-MM-dd hh:mm:ss a'
@@ -25,11 +33,10 @@ class Entry {
 	final long elapsedTime
 	final String preparedSql
 	final String sql
-	final String category
+	final Category category
 	final int connectionId
 
-	Entry(int id, long now, long elapsedTime, String preparedSql,
-			String sql, String category, int connectionId) {
+	Entry(int id, long now, long elapsedTime, String preparedSql, String sql, Category category, int connectionId) {
 		time = now
 		this.id = id
 		this.elapsedTime = elapsedTime
