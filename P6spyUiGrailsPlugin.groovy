@@ -24,19 +24,15 @@ import com.p6spy.engine.common.P6SpyProperties
 class P6spyUiGrailsPlugin {
 
 	String version = '0.1'
-	String grailsVersion = '2.0 > *'
+	String grailsVersion = '2.3 > *'
 	String author = 'Burt Beckwith'
-	String authorEmail = 'beckwithb@vmware.com'
+	String authorEmail = 'burt@burtbeckwith.com'
 	String title = 'P6Spy UI Plugin'
 	String description = 'P6Spy UI Plugin'
 	String documentation = 'http://grails.org/plugin/p6spy-ui'
-	List pluginExcludes = [
-		'docs/**',
-		'src/docs/**'
-	]
-
+	def pluginExcludes = ['src/docs/**']
 	String license = 'APACHE'
-//	def issueManagement = [system: 'JIRA', url: 'http://jira.grails.org/browse/???']
+	def issueManagement = [url: 'https://github.com/burtbeckwith/grails-p6spy-ui/issues']
 	def scm = [url: 'https://github.com/burtbeckwith/grails-p6spy-ui']
 
 	def doWithSpring = {
