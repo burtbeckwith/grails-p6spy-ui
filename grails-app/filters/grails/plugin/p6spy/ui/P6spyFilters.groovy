@@ -12,30 +12,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-p6spy {
-	appender = 'grails.plugin.p6spy.ui.MemoryLogger'
-	autoflush = true
-	deregisterdrivers = true
-	exclude = ''
-	excludecategories = 'info,debug,result,batch'
-	executionthreshold = ''
-	filter = false
-	gsp {
-		layoutIndex = 'p6spy-ui'
-		layoutAdmin = 'main'
+package grails.plugin.p6spy.ui
+
+/**
+ * @author <a href='mailto:burt@burtbeckwith.com'>Burt Beckwith</a>
+ */
+class P6spyFilters {
+
+	def grailsApplication
+
+	def filters = {
+		p6spy(controller: 'p6spy') {
+			after = { Map model ->
+				if (model == null) {
+					return
+				}
+
+				def conf = grailsApplication.config.grails.plugin.p6spy
+				model.layoutIndex = conf.gsp.layoutIndex
+				model.layoutAdmin = conf.gsp.layoutAdmin
+				model.p6spyConfig = conf
+			}
+		}
 	}
-	include = ''
-	includecategories = ''
-	module {
-		log = 'com.p6spy.engine.logging.P6LogFactory'
-	}
-	outagedetection = false
-	outagedetectioninterval = ''
-	reloadproperties = false
-	reloadpropertiesinterval = '60'
-	sqlexpression = ''
-	stacktrace = false
-	stacktraceclass = ''
-	stringmatcher = ''
-	useprefix = false
 }
