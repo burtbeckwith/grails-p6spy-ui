@@ -13,44 +13,25 @@
  * limitations under the License.
  */
 p6spy {
-
 	appender = 'grails.plugin.p6spy.ui.MemoryLogger'
-
+	autoflush = true
+	deregisterdrivers = true
+	exclude = ''
+	excludecategories = 'info,debug,result,batch'
+	executionthreshold = ''
+	filter = false
+	include = ''
+	includecategories = ''
 	module {
 		log = 'com.p6spy.engine.logging.P6LogFactory'
 	}
-
-	deregisterdrivers = true
-
-	executionthreshold = ''
-
 	outagedetection = false
-
 	outagedetectioninterval = ''
-
-	filter = false
-
-	include = ''
-
-	exclude = ''
-
-	sqlexpression = ''
-
-	autoflush = true
-
-	includecategories = ''
-
-	excludecategories = 'info,debug,result,batch'
-
-	stringmatcher = ''
-
-	stacktrace = false
-
-	stacktraceclass = ''
-
 	reloadproperties = false
-
 	reloadpropertiesinterval = '60'
-
+	sqlexpression = ''
+	stacktrace = false
+	stacktraceclass = ''
+	stringmatcher = ''
 	useprefix = false
 }

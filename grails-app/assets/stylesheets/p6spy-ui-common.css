@@ -94,25 +94,12 @@ a {
 	outline: none;
 }
 
-#accordion {
-	background: #eee;
-	width: 300px;
-}
-
-#accordion h2 {
-	background:#ccc url(gradient/h30.png);
-}
-
-#accordion .pane {
-	color: black;
-}
-
-ul.tabs a { 
+ul.tabs a {
 	font-size:12px;
 	font-weight:normal;
-	padding: 5px 20px;	
+	padding: 5px 20px;
 	height: 16px;
-	top: 3px;	
+	top: 3px;
 }
 
 
