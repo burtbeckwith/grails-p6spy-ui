@@ -14,21 +14,87 @@
  */
 package grails.plugin.p6spy.ui
 
+import groovy.transform.CompileStatic
+
 import java.text.SimpleDateFormat
+
+import com.p6spy.engine.outage.P6OutageOptions
+import com.p6spy.engine.spy.P6SpyOptions
 
 /**
  * @author <a href='mailto:burt@burtbeckwith.com'>Burt Beckwith</a>
  */
+@CompileStatic
 class P6spyService {
 
 	protected static final String DATE_FORMAT = 'yyyy.MM.dd hh:mm:ss.SSS'
 
 	static transactional = false
 
-	def createQueryCountChartData() {
-//		if (ProfileStatements.getQueryEntryCount() == lastQueryTotal) return
-//		lastQueryTotal = ProfileStatements.getQueryEntryCount();
-//		int lastQueryTotal
+	Map createAdminModel() {
+		P6OutageOptions p6OutageOptions = P6OutageOptions.activeInstance as P6OutageOptions
+		P6SpyOptions p6SpyOptions = P6SpyOptions.activeInstance as P6SpyOptions
+
+		[//P6OutageOptions
+		 outageDetection: p6OutageOptions?.outageDetection,
+		 outageDetectionInterval: p6OutageOptions?.outageDetectionInterval,
+		 outageDetectionIntervalMS: p6OutageOptions?.outageDetectionIntervalMS,
+		 // P6SpyOptions
+		 // String
+		 appender: p6SpyOptions.appender,
+		 databaseDialectDateFormat: p6SpyOptions.databaseDialectDateFormat,
+		 dateformat: p6SpyOptions.dateformat,
+		 driverlist: p6SpyOptions.driverlist,
+		 jmxPrefix: p6SpyOptions.jmxPrefix,
+		 jndiContextCustom: p6SpyOptions.JNDIContextCustom,
+		 jndiContextFactory: p6SpyOptions.JNDIContextFactory,
+		 jndiContextProviderURL: p6SpyOptions.JNDIContextProviderURL,
+		 logfile: p6SpyOptions.logfile,
+		 logMessageFormat: p6SpyOptions.logMessageFormat,
+		 modulelist: p6SpyOptions.modulelist,
+		 realDataSource: p6SpyOptions.realDataSource,
+		 realDataSourceClass: p6SpyOptions.realDataSourceClass,
+		 realDataSourceProperties: p6SpyOptions.realDataSourceProperties,
+		 stackTraceClass: p6SpyOptions.stackTraceClass,
+		 // boolean
+		 append: p6SpyOptions.append,
+		 autoflush: p6SpyOptions.autoflush,
+		 jmx: p6SpyOptions.jmx,
+		 reloadProperties: p6SpyOptions.reloadProperties,
+		 stackTrace: p6SpyOptions.stackTrace,
+		 // long
+		 reloadPropertiesInterval: p6SpyOptions.reloadPropertiesInterval,
+		 // MessageFormattingStrategy
+		 logMessageFormatInstance: p6SpyOptions.logMessageFormatInstance,
+		 // P6Logger
+		 appenderInstance: p6SpyOptions.appenderInstance,
+		 // Set<P6Factory>
+		 moduleFactories: p6SpyOptions.moduleFactories,
+		 // Set<String>
+		 driverNames: p6SpyOptions.driverNames,
+		 moduleNames: p6SpyOptions.moduleNames]
+	}
+
+	Map createSqlStatementModel(Integer start, Integer maxCount, String searchString) {
+		int count = MemoryLogger.instance.entryCount
+		[iTotalRecords: count, totalQueryTime: MemoryLogger.instance.totalQueryTime,
+		 iTotalDisplayRecords: count, aaData: createSqlStatementData(start, maxCount, searchString)]
+	}
+
+	List<Map> createSqlStatementData(Integer start, Integer maxCount, String searchString) {
+
+		List<Entry> allEntries = MemoryLogger.instance.entries
+
+		List<Entry> entries = searchString ? filterByText(allEntries, searchString, start, maxCount) : allEntries
+		entries = findMatchingEntries(entries, start, maxCount)
+
+		entries.collect { Entry entry ->
+			[entry.id, new SimpleDateFormat(DATE_FORMAT).format(new Date(entry.time)), entry.elapsedTime,
+			 entry.connectionId, entry.category.name, entry.preparedSql, entry.sql]
+		}
+	}
+
+	Map createQueryCountChartData() {
 
 		MemoryLogger memoryLogger = MemoryLogger.instance
 
@@ -40,7 +106,7 @@ class P6spyService {
 		}
 
 		int timeIncrement = 1000
-		int slices = (highestTime - lowestTime) / timeIncrement
+		int slices = ((highestTime - lowestTime) / timeIncrement) as int
 		if (slices < 2) {
 			return null
 		}
@@ -75,13 +141,14 @@ class P6spyService {
 			}
 			queriesInSlice++
 			if (entry.category) {
-				if ('statement'.equals(entry.category.toLowerCase())) {
+				String categoryNameLower = entry.category.name.toLowerCase()
+				if ('statement' == categoryNameLower) {
 					statementCount++
 					if (isSelectQuery(entry.sql)) {
 						selectCount++
 					}
 				}
-				else if ('resultset'.equals(entry.category.toLowerCase())) {
+				else if ('resultset' == categoryNameLower) {
 					resultsetCount++
 				}
 			}
@@ -105,11 +172,7 @@ class P6spyService {
 		removeStartComment sql
 	}
 
-	def createQueryTrafficChartData() {
-
-//		int lastQueryTotal;
-//		if (ProfileStatements.getQueryEntryCount() == lastQueryTotal) return
-//		lastQueryTotal = ProfileStatements.getQueryEntryCount();
+	Map createQueryTrafficChartData() {
 
 		MemoryLogger memoryLogger = MemoryLogger.instance
 
@@ -122,7 +185,7 @@ class P6spyService {
 
 		long timeInterval = highestTime - lowestTime
 		int timeIncrement = 1000
-		int slices = timeInterval / timeIncrement
+		int slices = (timeInterval / timeIncrement) as int
 		if (slices < 2) {
 			return null
 		}
@@ -148,29 +211,17 @@ class P6spyService {
 				currentEndTime = lowestTime + timeIncrement * (slice + 1)
 			}
 			if (entry.category) {
-				if ('statement'.equals(entry.category.toLowerCase())) {
+				String categoryNameLower = entry.category.name.toLowerCase()
+				if ('statement' == categoryNameLower) {
 					outboundTotal += entry.sql.length()
 				}
-				else if ('resultset'.equals(entry.category.toLowerCase())) {
+				else if ('resultset' == categoryNameLower) {
 					inboundTotal += entry.sql.length()
 				}
 			}
 		}
 
 		[xAxisLabels: xAxisLabels, outboundTotals: outboundTotals, inboundTotals: inboundTotals]
-	}
-
-	def createSqlStatementData(Integer start, Integer maxCount, String searchString) {
-
-		List<Entry> allEntries = MemoryLogger.instance.entries
-
-		List<Entry> entries = searchString ? filterByText(allEntries, searchString, start, maxCount) : allEntries
-		entries = findMatchingEntries(entries, start, maxCount)
-
-		entries.collect { Entry entry ->
-			[entry.id, new SimpleDateFormat(DATE_FORMAT).format(new Date(entry.time)), entry.elapsedTime,
-			 entry.connectionId, entry.category, entry.preparedSql, entry.sql]
-		}
 	}
 
 	protected List<Entry> filterByText(List<Entry> entries, String text, int start, int maxCount) {
@@ -195,7 +246,7 @@ class P6spyService {
 
 		entry.preparedSql.toLowerCase().contains(lowerText) ||
 		entry.sql.toLowerCase().contains(lowerText) ||
-		entry.category.toLowerCase().contains(lowerText)
+		entry.category.name.toLowerCase().contains(lowerText)
 	}
 
 	protected List<Entry> findMatchingEntries(List<Entry> entries, int start, int maxCount) {
