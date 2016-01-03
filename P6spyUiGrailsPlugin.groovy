@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import grails.plugin.p6spy.ui.P6SpyBeanDefinitionRegistryPostProcessor
 import grails.plugin.p6spy.ui.P6spyUiGrailsPluginSupport
 
 class P6spyUiGrailsPlugin {
@@ -30,6 +31,10 @@ class P6spyUiGrailsPlugin {
 
 	def doWithSpring = {
 		P6spyUiGrailsPluginSupport.updateP6spyConfig application
+
+		p6SpyBeanDefinitionRegistryPostProcessor(P6SpyBeanDefinitionRegistryPostProcessor) {
+			grailsApplication = application
+		}
 	}
 
 	def onConfigChange = { event ->
