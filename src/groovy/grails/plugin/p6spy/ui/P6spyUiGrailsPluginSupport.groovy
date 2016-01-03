@@ -35,24 +35,24 @@ class P6spyUiGrailsPluginSupport {
 		GroovyClassLoader classLoader = new GroovyClassLoader(Thread.currentThread().contextClassLoader)
 		ConfigObject defaultConfig = new ConfigSlurper(Environment.current.name).parse(classLoader.loadClass('DefaultP6SpyConfig'))
 
-		def config = new ConfigObject()
-		config.putAll defaultConfig.p6spy.merge(application.config.grails.plugin.p6spy)
+		def p6spyConfig = new ConfigObject()
+		p6spyConfig.putAll defaultConfig.p6spy.merge(application.config.grails.plugin.p6spy)
 
-		fixValues config
+		fixValues p6spyConfig
 
-		application.config.grails.plugin.p6spy = config
+		application.config.grails.plugin.p6spy = p6spyConfig
 
-		P6SpyLoadableOptions options = P6SpyOptions.getActiveInstance()
+		P6SpyLoadableOptions options = P6SpyOptions.activeInstance
 
-		String appender = config.remove('appender')
+		String appender = p6spyConfig.config.remove('appender')
 
-		options.load config
+		options.load p6spyConfig.config
 
 		// don't replace with new instance of the same type
 		if (options.appenderInstance?.getClass()?.name != appender) {
 			options.appender = appender
 		}
-		config.appender = appender
+		p6spyConfig.appender = appender
 	}
 
 	protected static void fixValues(config) {
