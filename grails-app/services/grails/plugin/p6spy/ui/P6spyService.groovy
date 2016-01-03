@@ -229,7 +229,7 @@ class P6spyService {
 
 		int totalCount = entries.size()
 		for (int i = start; i < totalCount; i++) {
-			Entry entry = entries.get(i)
+			Entry entry = entries[i]
 			if (containsText(entry, text)) {
 				matching << entry
 				if (matching.size() == maxCount) {
@@ -253,7 +253,7 @@ class P6spyService {
 		List<Entry> matching = []
 		int max = Math.min(start + maxCount, entries.size())
 		for (int i = start; i < max; i++) {
-			matching << entries.get(i)
+			matching << entries[i]
 		}
 		matching
 	}

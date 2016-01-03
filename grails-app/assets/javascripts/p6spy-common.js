@@ -91,7 +91,7 @@ function drawQueriesOverTime() {
 	});
 }
 
-function drawQueryTrafficOverTime() {//, dataType: 'json'
+function drawQueryTrafficOverTime() {
 	$.ajax({url: queryTrafficOverTimeUrl}).done(function(jsonData) {
 		var data = new google.visualization.DataTable(jsonData);
 		var chart = new google.visualization.LineChart($('#queryTrafficOverTimeChart')[0]);
