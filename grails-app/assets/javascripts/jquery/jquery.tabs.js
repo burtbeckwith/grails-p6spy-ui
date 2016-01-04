@@ -15,7 +15,7 @@
 		conf: {
 			tabs: 'a',
 			current: 'current',
-			onBeforeClick: null,v
+			onBeforeClick: null,
 			onClick: null,
 			effect: 'default',
 			initialEffect: false,   // whether or not to show effect in first init of tabs

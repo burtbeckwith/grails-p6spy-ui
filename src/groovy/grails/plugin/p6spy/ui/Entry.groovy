@@ -26,7 +26,7 @@ import com.p6spy.engine.logging.Category
 @CompileStatic
 class Entry {
 
-	protected static final String DATE_FORMAT = 'yyyy-MM-dd hh:mm:ss a'
+	protected static final String DATE_FORMAT = 'yyyy.MM.dd hh:mm:ss.SSS'
 
 	final int id
 	final long time
@@ -34,6 +34,7 @@ class Entry {
 	final String preparedSql
 	final String sql
 	final Category category
+	final String categoryName
 	final int connectionId
 
 	Entry(int id, long now, long elapsedTime, String preparedSql, String sql, Category category, int connectionId) {
@@ -43,6 +44,7 @@ class Entry {
 		this.preparedSql = preparedSql
 		this.sql = sql
 		this.category = category
+		categoryName = category.name
 		this.connectionId = connectionId
 	}
 

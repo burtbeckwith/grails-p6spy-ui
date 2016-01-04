@@ -2,25 +2,25 @@
 <head>
 	<meta name="layout" content="${layoutIndex ?: 'p6spy-ui'}">
 	<title><g:message code='p6spyui.title'/></title>
-<script type='text/javascript' src='http://www.google.com/jsapi'></script>
-<script>
-var pauseImageSrc = "${assetPath(src: 'pause.gif')}";
-var startImageSrc = "${assetPath(src: 'start.gif')}";
-var sqlStatementsUrl = "${createLink(action: 'sqlStatements')}";
-var clearEntriesUrl = "${createLink(action: 'clearEntries')}";
-var queriesOverTimeUrl = "${createLink(action: 'queriesOverTime')}";
-var queryTrafficOverTimeUrl = "${createLink(action: 'queryTrafficOverTime')}";
-var enableAutoRefresh = "${message(code: 'p6spyui.enableAutoRefresh')}";
-var disableAutoRefresh = "${message(code: 'p6spyui.disableAutoRefresh')}";
-var lastUpdated = "${message(code: 'p6spyui.lastUpdated')}";
-var queriesOverTime = "${message(code: 'p6spyui.header.queriesOverTime')}";
-var queryTrafficOverTime = "${message(code: 'p6spyui.header.queryTrafficOverTime')}";
-var titleSeconds = "${message(code: 'p6spyui.title.seconds')}";
-var titleQueries = "${message(code: 'p6spyui.title.queries')}";
-var titleBytes = "${message(code: 'p6spyui.title.bytes')}";
+	<script type='text/javascript' src='http://www.google.com/jsapi'></script>
+	<script>
+	var pauseImageSrc           = "${assetPath(src: 'pause.gif')}";
+	var startImageSrc           = "${assetPath(src: 'start.gif')}";
+	var sqlStatementsUrl        = "${createLink(action: 'sqlStatements')}";
+	var clearEntriesUrl         = "${createLink(action: 'clearEntries')}";
+	var queriesOverTimeUrl      = "${createLink(action: 'queriesOverTime')}";
+	var queryTrafficOverTimeUrl = "${createLink(action: 'queryTrafficOverTime')}";
+	var enableAutoRefresh       = "${message(code: 'p6spyui.enableAutoRefresh')}";
+	var disableAutoRefresh      = "${message(code: 'p6spyui.disableAutoRefresh')}";
+	var lastUpdated             = "${message(code: 'p6spyui.lastUpdated')}";
+	var queriesOverTime         = "${message(code: 'p6spyui.header.queriesOverTime')}";
+	var queryTrafficOverTime    = "${message(code: 'p6spyui.header.queryTrafficOverTime')}";
+	var titleSeconds            = "${message(code: 'p6spyui.title.seconds')}";
+	var titleQueries            = "${message(code: 'p6spyui.title.queries')}";
+	var titleBytes              = "${message(code: 'p6spyui.title.bytes')}";
 
-google.load("visualization", "1", {packages: ["corechart"]});
-</script>
+	google.load("visualization", "1", {packages: ["corechart"]});
+	</script>
 </head>
 <body>
 	<ul class="tabs">

@@ -25,7 +25,7 @@ class P6spyController {
 
 	def index() {}
 
-	def sqlStatements(Integer sEcho, String sKeyword, Integer iDisplayStart, Integer iDisplayLength, Integer iSortingCols, String sSearch) {
+	def sqlStatements(Integer iDisplayStart, Integer iDisplayLength, String sSearch, Integer sEcho) {
 		def data = p6spyService.createSqlStatementModel(iDisplayStart, iDisplayLength, sSearch)
 		data.sEcho = sEcho
 		render data as JSON
@@ -33,7 +33,7 @@ class P6spyController {
 
 	def clearEntries() {
 		p6spyService.clearEntries()
-		render 'ok'
+		render 'clearEntries: OK'
 	}
 
 	def queriesOverTime() {

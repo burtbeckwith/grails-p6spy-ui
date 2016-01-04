@@ -1,11 +1,10 @@
 $(function() {
 	$('#sqlStatementTable').dataTable({
-		"bStateSave": true,
-		"bProcessing": false,
-		"bServerSide": true,
-		"sAjaxSource": sqlStatementsUrl,
-
-		"fnServerData": function(sSource, aoData, fnCallback) {
+		bStateSave: true,
+		bProcessing: false,
+		bServerSide: true,
+		sAjaxSource: sqlStatementsUrl,
+		fnServerData: function(sSource, aoData, fnCallback) {
 			$.getJSON(sSource, aoData, function(json) {
 				fnCallback(json);
 				$('#totalStatementTime').html(json.totalQueryTime);
