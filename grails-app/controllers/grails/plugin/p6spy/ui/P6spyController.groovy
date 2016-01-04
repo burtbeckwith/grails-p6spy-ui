@@ -25,8 +25,9 @@ class P6spyController {
 
 	def index() {}
 
-	def sqlStatements(Integer iDisplayStart, Integer iDisplayLength, String sSearch, Integer sEcho) {
-		def data = p6spyService.createSqlStatementModel(iDisplayStart, iDisplayLength, sSearch)
+	def sqlStatements(Integer iDisplayStart, Integer iDisplayLength, String sSearch, Integer iSortCol_0,
+	                  String sSortDir_0, Integer sEcho) {
+		def data = p6spyService.createSqlStatementModel(iDisplayStart, iDisplayLength, sSearch, iSortCol_0, sSortDir_0)
 		data.sEcho = sEcho
 		render data as JSON
 	}

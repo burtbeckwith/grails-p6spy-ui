@@ -1,11 +1,34 @@
+var sh;
+
 $(function() {
+
+	var brush = SyntaxHighlighter.brushes.Sql;
+	sh = new brush();
+	sh.init({ brush: 'sql', light: true });
+
 	$('#sqlStatementTable').dataTable({
 		bStateSave: true,
 		bProcessing: false,
 		bServerSide: true,
 		sAjaxSource: sqlStatementsUrl,
+		bAutoWidth: false,
+		columns: [
+			{ width:  '5%' },
+			{ width: '10%' },
+			{ width:  '5%' },
+			{ width:  '5%' },
+			{ width: '10%' },
+			{ width: '30%' },
+			{ width: '35%' }
+		],
 		fnServerData: function(sSource, aoData, fnCallback) {
 			$.getJSON(sSource, aoData, function(json) {
+				if (json && json.aaData) {
+					for (var i = 0; i < json.aaData.length; i++) {
+						json.aaData[i][5] = sh.getHtml(json.aaData[i][5]);
+						json.aaData[i][6] = sh.getHtml(json.aaData[i][6]);
+					}
+				}
 				fnCallback(json);
 				$('#totalStatementTime').html(json.totalQueryTime);
 				updateLastUpdated();

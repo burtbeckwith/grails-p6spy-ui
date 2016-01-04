@@ -79,3 +79,20 @@ table.display tr {
 .odd {
 	background: #f7f7f7;
 }
+
+.syntaxhighlighter a,
+.syntaxhighlighter div,
+.syntaxhighlighter code,
+.syntaxhighlighter table,
+.syntaxhighlighter table td,
+.syntaxhighlighter table tr,
+.syntaxhighlighter table tbody,
+.syntaxhighlighter table thead,
+.syntaxhighlighter table caption,
+.syntaxhighlighter textarea {
+	white-space: normal;
+}
+
+.syntaxhighlighter .line {
+	white-space: normal;
+}

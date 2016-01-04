@@ -27,6 +27,10 @@ import com.p6spy.engine.spy.P6SpyOptions
 @CompileStatic
 class P6spyService {
 
+	protected static final Map<String, String> COLUMN_NAME_TO_ENTRY_PROPERTY = [
+		id: 'id', date: 'time', timeMs: 'elapsedTime', connectionId: 'connectionId',
+		category: 'categoryName', prepared: 'preparedSql', sql: 'sql']
+
 	static transactional = false
 
 	Map createAdminModel() {
@@ -63,18 +67,19 @@ class P6spyService {
 		 moduleNames:               p6SpyOptions.moduleNames]
 	}
 
-	Map createSqlStatementModel(Integer start, Integer maxCount, String searchString) {
+	Map createSqlStatementModel(Integer start, Integer maxCount, String searchString, Integer sortColumn, String sortDirection) {
 		int count = MemoryLogger.instance.entryCount
 		[iTotalRecords: count, totalQueryTime: MemoryLogger.instance.totalQueryTime,
-		 iTotalDisplayRecords: count, aaData: createSqlStatementData(start, maxCount, searchString)]
+		 iTotalDisplayRecords: count, aaData: createSqlStatementData(start, maxCount, searchString, sortColumn, sortDirection)]
 	}
 
-	List<Map> createSqlStatementData(Integer start, Integer maxCount, String searchString) {
+	List createSqlStatementData(Integer start, Integer maxCount, String searchString, Integer sortColumn, String sortDirection) {
 
 		List<Entry> allEntries = MemoryLogger.instance.entries
 
 		List<Entry> entries = searchString ? filterByText(allEntries, searchString, start, maxCount) : allEntries
 		entries = findMatchingEntries(entries, start, maxCount)
+		sortEntries entries, sortColumn, sortDirection == 'desc'
 
 		entries.collect { Entry entry ->
 			[entry.id, entry.dateString, entry.elapsedTime, entry.connectionId,
@@ -244,6 +249,15 @@ class P6spyService {
 			matching << entries[i]
 		}
 		matching
+	}
+
+	protected void sortEntries(List<Entry> entries, Integer sortColumn, boolean descending) {
+		String columnName = (COLUMN_NAME_TO_ENTRY_PROPERTY.keySet() as List)[sortColumn ?: 0]
+		String propertyName = COLUMN_NAME_TO_ENTRY_PROPERTY[columnName]
+		entries.sort { it[propertyName] }
+		if (descending) {
+			entries.reverse true
+		}
 	}
 
 	void clearEntries() {
