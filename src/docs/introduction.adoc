@@ -1,0 +1,17 @@
+[[introduction]]
+== Introduction to the P6Spy UI Plugin
+
+The P6Spy UI plugin uses the https://github.com/p6spy/p6spy[P6Spy] library to intercept JDBC calls and display them in a web page. One benefit of P6Spy is that it will display the SQL that was actually run with SQL ? placeholders but also the SQL with the actual values.
+
+[NOTE]
+====
+Note that the plugin does not require the use of the Grails http://grails.org/plugin/p6spy[p6spy] plugin and is actually incompatible with it. If you are currently using it, migrate your settings from spy.properties to application.groovy as described in the <<configuration>> section and uninstall it.
+====
+
+The plugin includes with a controller and a GSP that will display the executed SQL in a DataTable, and also graphs in a second tab. Once the plugin is installed navigate to http://localhost:8080/p6spy to view the queries and graphs, or http://localhost:8080/p6spy/admin for a basic page displaying configuration settings.
+
+=== Release history
+
+* 1/04/2016 3.0.0 release
+* 1/04/2016 1.0.0 release
+* 11/11/2012 Initial 0.1 release

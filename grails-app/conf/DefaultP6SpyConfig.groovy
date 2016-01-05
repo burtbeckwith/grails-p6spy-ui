@@ -12,10 +12,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import grails.plugin.p6spy.ui.MemoryLogger
 
 import com.p6spy.engine.logging.P6LogFactory
 import com.p6spy.engine.spy.P6SpyFactory
+import grails.plugin.p6spy.ui.MemoryLogger
 
 p6spy {
 

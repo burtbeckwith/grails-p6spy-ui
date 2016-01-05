@@ -14,12 +14,9 @@
  */
 package grails.plugin.p6spy.ui
 
-import groovy.transform.CompileStatic
-
-import java.text.SimpleDateFormat
-
 import com.p6spy.engine.outage.P6OutageOptions
 import com.p6spy.engine.spy.P6SpyOptions
+import groovy.transform.CompileStatic
 
 /**
  * @author <a href='mailto:burt@burtbeckwith.com'>Burt Beckwith</a>
