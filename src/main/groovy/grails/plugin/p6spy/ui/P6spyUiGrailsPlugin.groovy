@@ -23,7 +23,7 @@ class P6spyUiGrailsPlugin extends Plugin {
 	String authorEmail = 'burt@burtbeckwith.com'
 	String title = 'P6Spy UI Plugin'
 	String description = 'P6Spy UI Plugin'
-	String documentation = 'http://grails.org/plugin/p6spy-ui'
+	String documentation = 'https://burtbeckwith.github.io/grails-p6spy-ui/'
 	String license = 'APACHE'
 	def issueManagement = [url: 'https://github.com/burtbeckwith/grails-p6spy-ui/issues']
 	def scm = [url: 'https://github.com/burtbeckwith/grails-p6spy-ui']
