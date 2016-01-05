@@ -17,7 +17,7 @@ import grails.plugin.p6spy.ui.P6spyUiGrailsPluginSupport
 
 class P6spyUiGrailsPlugin {
 
-	String version = '0.1'
+	String version = '1.0.0'
 	String grailsVersion = '2.3 > *'
 	String author = 'Burt Beckwith'
 	String authorEmail = 'burt@burtbeckwith.com'
