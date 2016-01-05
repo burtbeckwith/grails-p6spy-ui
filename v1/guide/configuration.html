@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>2 Configuration 1.0.0</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs" style="display:none;">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the P6Spy UI Plugin</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>2</strong><span>Configuration</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>P6Spy UI Plugin</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction to the P6Spy UI Plugin</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+
+
+                <div class="project">
+                    <h1>2 Configuration - Reference Documentation</h1>
+
+                    <p><strong>Authors:</strong> Burt Beckwith</p>
+
+                    <p><strong>Version:</strong> 1.0.0</p>
+
+                    
+                </div>
+
+                
+
+                
+
+<h1 id="configuration">2 Configuration</h1>
+P6Spy works by intercepting JDBC calls to log the executed SQL and parameters. There are multiple ways to configure this; by default the plugin will update the JDBC URL and driver class name for you, and the P6Spy driver will intercept calls and re-route them to the real driver. This is not possible if you use a JNDI data source, so in that case or if the configuration is more complex you can manually configure the DataSource.<p class="paragraph"/>If you cannot or don't want to use the auto-configuration feature, the first thing you need to do is change the <code>driverClassName</code> property in <code>DataSource.groovy</code> (or in the JNDI configuration) for any environments that you want to use the plugin in. Change it to <code>com.p6spy.engine.spy.P6SpyDriver</code>, e.g.<p class="paragraph"/><div class="code"><pre>dataSource &#123;
+   &#8230;
+   driverClassName = 'com.p6spy.engine.spy.P6SpyDriver'
+   &#8230;
+&#125;</pre></div><p class="paragraph"/>Having done this, you need to tell P6Spy what the real driver is. You do not create a <code>spy.properties</code> file like you usually do when working with P6Spy - instead you store settings in Config.groovy. This is more convenient since the plugin has many default values already set, so you only need to set the values that are required (currently just "realdriver" and only if you're not using auto-configuration) and any overrides or other values that don't have defaults set. In addition you can also externalize properties and take advantage of other features of setting properties in Config.groovy. If you're using MySQL you would specify the real driver class as<p class="paragraph"/><div class="code"><pre>grails.plugin.p6spy.config.realdriver = 'com.mysql.jdbc.Driver'</pre></div><p class="paragraph"/>and if you're using a different database change the value to the appropriate driver class.<p class="paragraph"/>The following table summarizes the various configuration options. Options that start with "config" are passed through to P6Spy, and those starting with "gsp" and "updateDataSource" are plugin-specific.<p class="paragraph"/>All must be set if Config.groovy or an external config file, and must include the <code>grails.plugin.p6spy.</code> prefix, e.g.<p class="paragraph"/><div class="code"><pre>grails.plugin.p6spy.config.jmx = <span class="java&#45;keyword">false</span></pre></div><p class="paragraph"/>See <a href="https://p6spy.github.io/p6spy/2.0/configandusage.html" target="blank">the P6Spy documentation</a> for more information about the available P6Spy options.<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Property</strong></th><th><strong class="bold">Default</strong></th><th><strong class="bold">Meaning</strong></th></tr><tr class="table-odd"><td>config.appender</td><td>'grails.plugin.p6spy.ui. MemoryLogger'</td><td>class name of the appender to use</td></tr><tr class="table-even"><td>config.autoflush</td><td>true</td><td>whether to flush per statement</td></tr><tr class="table-odd"><td>config.databaseDialectDateFormat</td><td>'dd-MMM-yy'</td><td>SimpleDateFormat format used for logging of PreparedStatement date/time values</td></tr><tr class="table-even"><td>config.dateformat</td><td> <em class="italic">none</em> </td><td>SimpleDateFormat format used for logging of the query time (if not set, millseconds since epoch is logged)</td></tr><tr class="table-odd"><td>config.driverlist</td><td> <em class="italic">none</em> </td><td>comma-separated list of JDBC drivers to load and register</td></tr><tr class="table-even"><td>config.exclude</td><td> <em class="italic">none</em> </td><td>if filter is true, a comma-separated list of strings used to define the include/exclude filter rule</td></tr><tr class="table-odd"><td>config.excludecategories</td><td>'batch, debug, info, result, resultset'</td><td>comma-separated list of category names to exclude</td></tr><tr class="table-even"><td>config.executionthreshold</td><td>'0'</td><td>if set, only statements that have taken longer than the time specified (in milliseconds) will be logged</td></tr><tr class="table-odd"><td>config.filter</td><td>false</td><td>if true, filter what is logged</td></tr><tr class="table-even"><td>config.include</td><td> <em class="italic">none</em> </td><td>if filter is true, a comma-separated list of strings used to define include/exclude filter rule</td></tr><tr class="table-odd"><td>config.jmx</td><td>true</td><td>whether to expose options via JMX</td></tr><tr class="table-even"><td>config.jmxPrefix</td><td> <em class="italic">none</em> </td><td>if jmx is true, the prefix used for the naming pattern</td></tr><tr class="table-odd"><td>config.jndicontextcustom</td><td> <em class="italic">none</em> </td><td>JNDI config setting if using external JNDI</td></tr><tr class="table-even"><td>config.jndicontextfactory</td><td> <em class="italic">none</em> </td><td>JNDI config setting if using external JNDI</td></tr><tr class="table-odd"><td>config.jndicontextproviderurl</td><td> <em class="italic">none</em> </td><td>JNDI config setting if using external JNDI</td></tr><tr class="table-even"><td>config.modulelist</td><td>'com.p6spy.engine.spy. P6SpyFactory, com.p6spy.engine.logging. P6LogFactory'</td><td>comma-separated list of names of module classes which should be active</td></tr><tr class="table-odd"><td>config.outagedetection</td><td>false</td><td>if true, detects long-running statements that may indicate a database outage and logs statements that exceed outagedetectioninterval seconds; when enabled, only long-running statements are logged</td></tr><tr class="table-even"><td>config.outagedetectioninterval</td><td>'30'</td><td>threshold (in seconds) for outage detection</td></tr><tr class="table-odd"><td>config.realdatasource</td><td> <em class="italic">none</em> </td><td>if not using auto-update, the real JNDI name</td></tr><tr class="table-even"><td>config.realdatasourceclass</td><td> <em class="italic">none</em> </td><td>if not using auto-update, the name of the real DataSource class</td></tr><tr class="table-odd"><td>config.realdatasourceproperties</td><td> <em class="italic">none</em> </td><td>if not using auto-update, optional DataSource url properties</td></tr><tr class="table-even"><td>config.sqlexpression</td><td> <em class="italic">none</em> </td><td>if filter is true, a regex defining filter rule for SQL statements</td></tr><tr class="table-odd"><td>config.stacktrace</td><td>false</td><td>if true, log a stack trace for every statement logged</td></tr><tr class="table-even"><td>config.stacktraceclass</td><td> <em class="italic">none</em> </td><td>if stacktrace is true, a class name which must be present in the stacktrace for the stacktrace to be logged</td></tr><tr class="table-odd"><td>gsp.layoutAdmin</td><td>'main'</td><td>the layout to use for admin.gsp</td></tr><tr class="table-even"><td>gsp.layoutIndex</td><td>'p6spy-ui'</td><td>the layout to use for index.gsp</td></tr><tr class="table-odd"><td>updateDataSource.autoUpdate</td><td>true</td><td>if true, update the DataSource URL to include "p6spy:" to trigger P6Spy's auto-update feature</td></tr><tr class="table-even"><td>updateDataSource.driverClassNameProperty</td><td>'driverClassName'</td><td>if autoUpdate is true, the name of the DataSource driver class name property</td></tr><tr class="table-odd"><td>updateDataSource.urlProperty</td><td>'url'</td><td>if autoUpdate is true, the name of the DataSource 'url' property</td></tr></table>
+
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction to the P6Spy UI Plugin</span></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>
